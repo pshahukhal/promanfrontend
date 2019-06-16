@@ -7,11 +7,9 @@ class Form extends Component {
 		this.state = {
 			fields: this.props.fields.slice(),
 		}
-		this.onChange = this.onChange.bind(this);
-		this.onSubmit = this.onSubmit.bind(this);
 	}
 
-	onChange(e, i) {
+	onChange = (e, i) => {
 		const val = e.target.value;
 		const fields = [...this.state.fields];
 
@@ -21,7 +19,7 @@ class Form extends Component {
 		this.setState({fields});
 	}
 
-	onSubmit(e) {
+	onSubmit = (e) => {
 		e.preventDefault();
 
 		if(this.state.fields.every(field => field.value)) {

@@ -34,7 +34,9 @@ class BoardList extends Component {
 
 	render(){
 		console.log(this.state.listdetail.cards);
-
+        const {boardId} = this.props;
+		const {listId} = this.props;
+		const {onSubmit} = this.props;
 		return (
 			<div>
 			{ 
@@ -44,7 +46,8 @@ class BoardList extends Component {
 			<Form 
 				fields={fields} 
 				btnRequired={false} 
-				 
+				onSubmit={(fields) => onSubmit(fields, boardId, listId)} 
+ 
 			/>
 			<ul className="board-list">
 				{ (this.state.listdetail.cards || []) .map(({id, title}) => (

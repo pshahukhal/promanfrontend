@@ -4,9 +4,6 @@ const initialState = {
 	boards: [],
 }
 
-// local id variable to simulate id generation in a db
-let lastId = 1;
-
 // Add news board to boards array
 const addNewBoard = (state, data) => {
 	//Spread to maintain existing values in state.
@@ -40,27 +37,31 @@ const addNewBoard = (state, data) => {
 
 
 const updateBoard = (state, boardId,data) => {
-	//Spread to maintain existing values in state.
-	//Take existing boards arr elements and append a new board object
- 
-	axios.post(`http://localhost:8000/api/boards/update/` + boardId, { "title" :data })
-      .then((response) => {
-	   console.log(response);
-	  })
-	  .catch((err) => {
-		console.log(err.message);
-	  })	  
+		  
 }
 
 // Adds new list to board targeting board with it's id
 const addListToBoard = (state, listName, boardId) => {
-
+	axios.post(`http://localhost:8000/api/lists/create`, { "title" :listName ,"boardid" : boardId})
+	.then((response) => {
+	 boardId = (response.data.id);
+	 console.log(response);
+	})
+	.catch((err) => {
+	  console.log(err.message);
+	})
 }
 
 
 // Adds list item to a specific list within a board. boardId and listId required for targeting
-const addListItem = (state, itemValue, boardId, listId) => {
-	
+const addListItem = (state, itemValue, listId) => {
+	axios.post(`http://localhost:8000/api/cards/create`, { "title" :itemValue ,"listid" : listId})
+	.then((response) => {
+	 console.log(response);
+	})
+	.catch((err) => {
+	  console.log(err.message);
+	})
 }
 
 const toggleItemComplete = (state, itemId, listId, boardId) => {
@@ -68,11 +69,10 @@ const toggleItemComplete = (state, itemId, listId, boardId) => {
 
 const reducer = (state=initialState, action) => {
 	switch(action.type) {
-		case '[Boards] addNewBoard': return addNewBoard(state, action.data);
-		case '[Boards][Board] updateBoard': return updateBoard(state, action.boardId,action.data);
-		case '[Boards][Board] addListToBoard': return addListToBoard(state, action.listName, action.boardId);
-		case '[Boards][Board][List] addListItem': return addListItem(state, action.itemValue, action.boardId, action.listId);
-		case '[Boards][Board][List][Items][Item] toggleItemComplete': return toggleItemComplete(state, action.itemId, action.listId, action.boardId);
+		case 'addNewBoard': return addNewBoard(state, action.data);
+		case 'addListToBoard': return addListToBoard(state, action.listName, action.boardId);
+		case 'addListItem': return addListItem(state, action.itemValue, action.boardId, action.listId);
+		case 'toggleItemComplete': return toggleItemComplete(state, action.itemId, action.listId, action.boardId);
 		default: 
 			return state;
 	}

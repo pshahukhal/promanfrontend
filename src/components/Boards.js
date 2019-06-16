@@ -15,7 +15,6 @@ class Boards extends Component {
 
 	addBoard = (data) => {
 		this.props.addBoard(data);
-		console.log('checking the data here ',data);
 		this.setState({addingBoard: false})
 	}
 	

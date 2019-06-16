@@ -1,9 +1,11 @@
 import Boards from '../components/Boards';
 import { connect } from 'react-redux';
-import {addNewBoard,updateBoard} from '../actions/actions';
+import {addNewBoard} from '../actions/actions';
 import {selectBoards} from '../reducers/reducer';
 
 const mapStateToProps = state => {
+	console.log(selectBoards(state));
+	console.log(state);
 	return {
 		boards: selectBoards(state),
 	}
@@ -13,7 +15,6 @@ const mapDispatchToProps = dispatch => {
 	return {
 		//send board name to reducer
 		addBoard: (data) => dispatch(addNewBoard(data[0].value)),
-		updateBoard: (data) => dispatch(updateBoard(data[0].value))
 	}
 }	
 
